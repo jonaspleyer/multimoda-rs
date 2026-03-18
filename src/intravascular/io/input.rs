@@ -64,9 +64,6 @@ impl InputData {
     ) -> anyhow::Result<InputData> {
         let path = path.as_ref();
 
-        let lumen: Vec<ContourPoint>;
-        let ref_point: ContourPoint;
-
         let mut eem: Option<Vec<ContourPoint>> = None;
         let mut calcification: Option<Vec<ContourPoint>> = None;
         let mut sidebranch: Option<Vec<ContourPoint>> = None;
@@ -77,27 +74,27 @@ impl InputData {
         // Read required files - these will crash if missing
         let contours_fname = format!("{}_contours.csv", phase);
         let contours_path = path.join(&contours_fname);
-        if contours_path.exists() {
-            lumen = ContourPoint::read_contour_data(&contours_path)
-                .with_context(|| format!("reading {}", contours_path.display()))?;
+        let lumen = if contours_path.exists() {
+            ContourPoint::read_contour_data(&contours_path)
+                .with_context(|| format!("reading {}", contours_path.display()))?
         } else {
             return Err(anyhow::anyhow!(
                 "required contours file missing: {:?}",
                 contours_path
             ));
-        }
+        };
 
         let ref_fname = format!("{}_reference_points.csv", phase);
         let ref_path = path.join(&ref_fname);
-        if ref_path.exists() {
-            ref_point = ContourPoint::read_reference_point(&ref_path)
-                .with_context(|| format!("reading {}", ref_path.display()))?;
+        let ref_point = if ref_path.exists() {
+            ContourPoint::read_reference_point(&ref_path)
+                .with_context(|| format!("reading {}", ref_path.display()))?
         } else {
             return Err(anyhow::anyhow!(
                 "required reference-point file missing: {:?}",
                 ref_path
             ));
-        }
+        };
 
         for (_ctype, raw_name) in names.iter() {
             let name = raw_name.trim().to_lowercase();

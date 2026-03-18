@@ -15,7 +15,7 @@ pub fn write_geometry_to_csv<P: AsRef<Path>>(
     let mut wtr = Writer::from_path(path)?;
 
     // Write header
-    wtr.write_record(&[
+    wtr.write_record([
         "label",
         "source",
         "contour_id",
@@ -84,7 +84,7 @@ pub fn write_contour_to_csv<P: AsRef<Path>>(
     let mut wtr = Writer::from_path(path)?;
 
     // Write header
-    wtr.write_record(&[
+    wtr.write_record([
         "source",
         "contour_id",
         "point_index",

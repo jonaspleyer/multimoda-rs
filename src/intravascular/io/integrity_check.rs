@@ -144,7 +144,7 @@ fn check_contour_point_counts(geometry: &Geometry) -> Result<()> {
             }
         }
 
-        for (_contour_type, contour) in &frame.extras {
+        for contour in frame.extras.values() {
             let kind = contour.kind;
             let count = contour.points.len();
             if let Some(&expected) = expected_counts.get(&kind) {
@@ -205,7 +205,7 @@ fn check_original_frame_consistency(geometry: &Geometry) -> Result<()> {
 fn check_proximal_end_index(geometry: &Geometry) -> Result<()> {
     let proximal_idx = geometry.find_proximal_end_idx();
 
-    let mut min_z = std::f64::INFINITY;
+    let mut min_z = f64::INFINITY;
     let mut min_idx = 0usize;
     for (i, f) in geometry.frames.iter().enumerate() {
         let z = f.centroid.2;
