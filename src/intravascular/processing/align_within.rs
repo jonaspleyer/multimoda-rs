@@ -284,7 +284,7 @@ fn angle_ref_point_to_right(ref_frame: &Frame, anomalous: bool) -> anyhow::Resul
     let mut all_good = true;
     for &op in &other_pts {
         // skip comparison if op is identical to ref (possible in non-anomalous case)
-        if (op.0 - ref_pt_2d.0).abs() < f64::EPSILON && (op.1 - ref_pt_2d.1).abs() < f64::EPSILON {
+        if approx::abs_diff_eq!(op.0, ref_pt_2d.0) && approx::abs_diff_eq!(op.1, ref_pt_2d.1) {
             continue;
         }
         let r_op = rotate2(op, center, rotation);
@@ -725,7 +725,7 @@ fn dump_table(logs: &[AlignLog]) {
 
     // Data rows
     for row in &rows {
-        print_row(&row.to_vec(), &widths);
+        print_row(row.as_ref(), &widths);
     }
 
     // Bottom border

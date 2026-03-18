@@ -218,8 +218,7 @@ fn find_best_rotation_between(
             })
             .collect();
 
-        let reference_points: Vec<ContourPoint> =
-            reference.iter().map(|pi| pi.point.clone()).collect();
+        let reference_points: Vec<ContourPoint> = reference.iter().map(|pi| pi.point).collect();
 
         hausdorff_distance(&reference_points, &rotated_target)
     };

@@ -302,7 +302,7 @@ impl ContourPoint {
     /// Rotates a single point about a given center (cx, cy) by a specified angle (in radians).
     pub fn rotate_point(&self, angle: f64, center: (f64, f64)) -> ContourPoint {
         if angle == 0.0 {
-            return self.clone();
+            return *self;
         }
         let (cx, cy) = center;
         let x = self.x - cx;
@@ -374,7 +374,7 @@ impl Centerline {
             };
 
             points.push(CenterlinePoint {
-                contour_point: current.clone(),
+                contour_point: *current,
                 normal,
             });
         }

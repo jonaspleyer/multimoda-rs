@@ -9,26 +9,23 @@ pub fn check_geometry_integrity(geometry: &Geometry) -> Result<()> {
         return Err(anyhow!("Geometry has no frames"));
     }
 
-    let checks: &[(&str, fn(&Geometry) -> Result<()>)] = &[
-        ("check_frame_ids_consecutive", check_frame_ids_consecutive),
-        ("check_centroids_match", check_centroids_match),
-        ("check_lumen_presence", check_lumen_presence),
-        ("check_reference_point", check_reference_point),
-        ("check_contour_point_counts", check_contour_point_counts),
-        (
-            "check_original_frame_consistency",
-            check_original_frame_consistency,
-        ),
-        ("check_proximal_end_index", check_proximal_end_index),
-        ("check_z_distribution", check_z_distribution),
-    ];
-
-    for (name, f) in checks {
-        if let Err(e) = f(geometry) {
-            println!("Integrity check '{}' failed: {}", name, e);
-            return Err(e);
+    macro_rules! check_integ(
+        ($function:ident) => {
+            if let Err(e) = $function(geometry) {
+                println!("Integrity check '{}' failed: {}", stringify!($function), e);
+                return Err(e);
+            }
         }
-    }
+    );
+
+    check_integ!(check_frame_ids_consecutive);
+    check_integ!(check_centroids_match);
+    check_integ!(check_lumen_presence);
+    check_integ!(check_reference_point);
+    check_integ!(check_contour_point_counts);
+    check_integ!(check_original_frame_consistency);
+    check_integ!(check_proximal_end_index);
+    check_integ!(check_z_distribution);
 
     Ok(())
 }

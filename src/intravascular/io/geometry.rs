@@ -393,10 +393,6 @@ impl Contour {
 }
 
 impl Frame {
-    pub fn new() {
-        todo!()
-    }
-
     /// Sets a value for all contours and reference point in the frame.
     /// You can set `id`, `original_frame`, `points`, or `centroid` for all contours and reference point.
     pub fn set_value(

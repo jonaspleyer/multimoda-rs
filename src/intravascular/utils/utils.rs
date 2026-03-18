@@ -31,7 +31,7 @@ pub fn write_geometry_to_csv<P: AsRef<Path>>(
 
     // Helper to write from a source (contours or catheter)
     let write_contours = |source: &str,
-                          contours: &Vec<Contour>,
+                          contours: &[Contour],
                           wtr: &mut Writer<std::fs::File>|
      -> Result<(), Box<dyn Error>> {
         for contour in contours {
@@ -123,7 +123,7 @@ pub fn write_contour_to_csv<P: AsRef<Path>>(
 }
 
 #[allow(dead_code)]
-pub fn write_debug_obj_mesh(contours: &Vec<Contour>, filename: &str) -> Result<(), Box<dyn Error>> {
+pub fn write_debug_obj_mesh(contours: &[Contour], filename: &str) -> Result<(), Box<dyn Error>> {
     let sorted_contours = contours.to_owned();
 
     // Validation remains the same
